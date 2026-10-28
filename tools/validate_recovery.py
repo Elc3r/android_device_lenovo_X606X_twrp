@@ -118,7 +118,7 @@ def main():
     expected_kernel = (args.device_dir / "prebuilt/x606x_Image.gz").read_bytes()
     require(kernel == expected_kernel, "Packed kernel differs from the selected X606X prebuilt")
     require(hashlib.sha256(kernel).hexdigest() ==
-            "fb039df774989a7ca083b63ff77ef2b59c8e6f2352166777c5c82c0e8bd29bdc",
+            "c9b07e553475373f27946b4c6e4cc03d634558cefc6d0900132a46ae1cd8d8dd",
             "Selected prebuilt does not match the audited LTE kernel hash")
     digest = hashlib.sha1()
     for payload in [kernel, ramdisk, b"", b""]:

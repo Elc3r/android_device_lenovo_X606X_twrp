@@ -7,7 +7,7 @@ lineage_root=${1:-"$source_root/../lineageos-19.1"}
 kernel_source="$lineage_root/device/lenovo/achilles6_row_data/prebuilt/Image.gz"
 kernel_source=${KERNEL_SOURCE:-$kernel_source}
 kernel_target="$device_dir/prebuilt/x606x_Image.gz"
-expected_kernel=fb039df774989a7ca083b63ff77ef2b59c8e6f2352166777c5c82c0e8bd29bdc
+expected_kernel=c9b07e553475373f27946b4c6e4cc03d634558cefc6d0900132a46ae1cd8d8dd
 patch_file="$device_dir/patch/system/vold/0001-Remove-a12-kmblob-magic.patch"
 
 if [[ -e "$kernel_target" ]]; then

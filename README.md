@@ -30,7 +30,10 @@ bash device/lenovo/X606X/tools/build.sh
 
 The published pinned manifest supplies the exact LTE kernel from the companion
 device repository. The helper verifies its SHA256 before any preparation:
-`fb039df774989a7ca083b63ff77ef2b59c8e6f2352166777c5c82c0e8bd29bdc`.
+`c9b07e553475373f27946b4c6e4cc03d634558cefc6d0900132a46ae1cd8d8dd`.
+This is the September 2023 kernel from official Lenovo Software Fix firmware
+`TB_X606X_S301085_230919_BMP.zip`, shared with LineageOS. The local recovery
+build was flashed and booted; its log confirms successful PIN/FBE decryption.
 The imported `prebuilt/x606x_Image.gz` is gitignored. For a manual checkout,
 set `KERNEL_SOURCE=/path/to/Image.gz`, or `LINEAGE_ROOT=/path/to/lineageos-19.1`
 to import the kernel from that tree. An already valid local kernel needs neither.
@@ -40,7 +43,7 @@ Output: `out/target/product/X606X/recovery.img`.
 
 The tested recovery partition is 32 MiB. Packed-image validation checks bounds,
 properties, fstab, dependency names and kernel identity, not complete runtime
-symbol/linker compatibility. Publication cleanup has not been rebuilt yet.
+symbol/linker compatibility. A full fresh remote build remains unverified.
 
 Inherited X606F/FA kernel/vendor artifacts retain original provenance. The new
 LTE kernel is imported locally rather than added to Git. Complete corresponding
