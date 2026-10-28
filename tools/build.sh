@@ -5,7 +5,9 @@ device_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 source_root=$(cd -- "$device_dir/../../.." && pwd)
 bash "$device_dir/tools/prepare.sh" "${LINEAGE_ROOT:-$source_root/../lineageos-19.1}"
 cd -- "$source_root"
+unset TOP ANDROID_BUILD_TOP TARGET_PRODUCT TARGET_BUILD_VARIANT TARGET_BUILD_TYPE TARGET_BUILD_APPS
 source build/envsetup.sh
+test "$(gettop)" = "$source_root"
 lunch twrp_X606X-eng
 test "$(get_build_var PRODUCT_ENFORCE_VINTF_MANIFEST)" = true
 m -j"${JOBS:-4}" recoveryimage
