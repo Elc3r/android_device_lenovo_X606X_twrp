@@ -17,9 +17,7 @@
 #
 
 PRODUCT_MAKEFILES := \
-    $(LOCAL_DIR)/twrp_X606FA.mk
+    $(LOCAL_DIR)/twrp_X606X.mk
 
 COMMON_LUNCH_CHOICES := \
-    twrp_X606FA-userdebug \
-    twrp_X606FA-user \
-    twrp_X606FA-eng
+    twrp_X606X-eng
