@@ -1,51 +1,48 @@
-# TWRP device tree for Lenovo Smart Tab M10 FHD Plus (TB-X606FA/FX)
+# TWRP 3.7.1 / Android 12.1 — Lenovo TB-X606X LTE
 
-## Release info
-This is an unofficial build.  Install at your own risk.
+Unofficial recovery based on Yahoo-Mike's `recovery_device_lenovo_X606FA`,
+`android-12.1-fbe`, commit `9a49e442790139f6aa9b1f58f4fcb727718364a0`.
+Existing history, authors and copyright headers are retained. X606F/FA and
+X606X kernels are not interchangeable.
 
-Build with [minimal AOSP TWRP for Android 12.1](https://github.com/minimal-manifest-twrp/platform_manifest_twrp_aosp/tree/twrp-12.1).
+## Tested status
 
-This branch was created when Android 13 removed support for FDE (full disk encryption).  It will work with any ROMs/GSIs that use FBE (file-based encryption) with aes-256-xts:aes-256-cts.
+- Actual recovery flash boots; display, touch and normal ADB work.
+- FBE decryption with and without PIN works with the matching hardware-Beanpod
+  LineageOS 19.1 build. Stock FDE userdata needs a different recovery.
+- Internal-storage ZIP installation works and Android boots afterward.
+- Runtime device/system/build identifiers are `achilles6_row_data`, matching
+  the ROM assertion. Build/lunch/source name remains X606X; model is TB-X606X.
 
-Stock ROMs use FDE, so this branch will **not** work with stock ROMs.  For stock ROM support, use branch [android-11.0](https://github.com/Yahoo-Mike/recovery_device_lenovo_X606FA/tree/android-11.0).
+`fastboot boot` reported success but returned to Android on the tested tablet.
+ADB sideload hangs in FunctionFS binding; use normal ADB push plus Install.
+Recovery is engineering/permissive. Platform metadata `2025-03-05` matches the
+tested ROM, vendor SPL is `2022-05-05`; this does not update old binaries/kernel.
 
-Support Thread on [XDA](https://forum.xda-developers.com/t/4222887/).
+## Build
 
-### About Device
+Use integration `docs/BUILD_TWRP.md` and its pinned TWRP manifest. Put this tree
+at `device/lenovo/X606X`, then:
 
-![Lenovo Smart Tab M10 HD](https://download.lenovo.com/images/ProdImageSmart/amazon_alexa.jpg "Lenovo Smart Tab M10 FHD Plus (TB-X606FA)")
-
-Recovery Device Tree for Lenovo Smart Tab M10 FHD Plus wifi (TB-X606FA)
-=======================================================================
-Component   | Specs
--------:|:-------------------------
-Chipset| MediaTek Helio P22T
-CPU | ARM Cortex-A53, Octo-Core, 2.3 GHz
-GPU     | IMG PowerVR GE8320, 650 MHz
-Memory  | 2GB or 4GB (soldered)
-Shipped Android Version | 9.0 (Pie), upgrade to 10.0
-Storage | 32GB or 64GB eMMC
-MicroSD | Up to 256 GB
-Battery | 5000 mAh, Li-Po (non-removable)
-Display | 1920x1200 pixels, 10.3"
-Front Camera | 5.0 MP
-Rear Camera  | 8.0 MP
-Wifi | dual band, 802.11a/b/g/n/ac
-WLAN | 4G LTE   (TB-X606X only)
-Bluetooth | v5
-USB | USB-C (micro USB)
-Release Date | August 2020
-
-
-## To build
-If building for the TB-X606F, change BOARD_KERNEL_IMAGE_NAME in BoardConfig.mk before building.
-```
-. build/envsetup.sh
-lunch twrp_X606FA-eng
-mka recoveryimage
+```bash
+bash device/lenovo/X606X/tools/build.sh
 ```
 
-## Android 12: patch for FBE decryption
-There was a change in the data structure for Keymaster in Android 12.  It is incompatible with vendor blobs prior to A12 (like this device).
+The published pinned manifest supplies the exact LTE kernel from the companion
+device repository. The helper verifies its SHA256 before any preparation:
+`fb039df774989a7ca083b63ff77ef2b59c8e6f2352166777c5c82c0e8bd29bdc`.
+The imported `prebuilt/x606x_Image.gz` is gitignored. For a manual checkout,
+set `KERNEL_SOURCE=/path/to/Image.gz`, or `LINEAGE_ROOT=/path/to/lineageos-19.1`
+to import the kernel from that tree. An already valid local kernel needs neither.
+The helper applies the
+matching vold patch if needed and builds, but never flashes.
+Output: `out/target/product/X606X/recovery.img`.
 
-To make FBE decryption work, you will need to apply [this patch](https://github.com/Yahoo-Mike/recovery_device_lenovo_X606FA/tree/android-12.1-fbe/patch/system/vold) to TWRP before compiling.
+The tested recovery partition is 32 MiB. Packed-image validation checks bounds,
+properties, fstab, dependency names and kernel identity, not complete runtime
+symbol/linker compatibility. Publication cleanup has not been rebuilt yet.
+
+Inherited X606F/FA kernel/vendor artifacts retain original provenance. The new
+LTE kernel is imported locally rather than added to Git. Complete corresponding
+kernel source and proprietary redistribution grants are not supplied here.
+See integration `docs/PROVENANCE.md`.
